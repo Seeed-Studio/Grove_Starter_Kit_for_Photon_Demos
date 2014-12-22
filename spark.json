@@ -1,0 +1,7 @@
+{
+  "name": "Grove_Starter_Kit_for_Photon_Demos",
+  "author": "Jacky Zhang <qi.zhang@seeed.cc>",
+  "license": "MIT",
+  "version": "0.0.10",
+  "description": "These are some demos for Grove Starter Kit for Photon"
+}
