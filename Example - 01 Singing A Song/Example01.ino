@@ -1,6 +1,7 @@
 // -----------------------------------
 // Example - 01: Singing A Song
 // -----------------------------------
+#include "application.h"
 
 // name the pins
 #define BUTTONPIN D2
@@ -14,7 +15,7 @@ void setup()
 {
   pinMode(BUTTONPIN, INPUT);                            // set user key pin as input
 }
-	
+
 // This routine loops forever
 void loop()
 {

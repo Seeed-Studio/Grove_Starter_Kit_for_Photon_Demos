@@ -1,6 +1,7 @@
 // -----------------------------------
 // Example - 06: It’s Time to Get Up
 // -----------------------------------
+#include "application.h"
 
 // name the pins
 #define LIGHTPIN A0

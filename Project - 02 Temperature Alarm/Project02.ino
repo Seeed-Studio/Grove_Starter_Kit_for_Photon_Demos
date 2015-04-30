@@ -1,9 +1,11 @@
 // -----------------------------------
 // Project - 02 Temperature Alarm
 // -----------------------------------
-
+#include "application.h"
 #include <math.h>
 #include "TM1637.h"
+
+void dispNum(int num);
 
 // name the pins
 #define CLK D4
@@ -11,14 +13,12 @@
 TM1637 tm1637(CLK,DIO);
 #define TEMPPIN A4
 #define ROTARYPIN A0
-#define HALLPIN D2
 #define BUZZERPIN D1
 
 int tempMesured;                                // the temperature we mesured
 int tempUserSet;                                // the temperature user set
 int tempThreshould;                             // the temperature threshould
 int timeout = 0;                                // for display delay
-int hallStatus;                                 // if there is a magnet beside
 
 // This routine runs only once upon reset
 void setup()
@@ -26,7 +26,6 @@ void setup()
   Serial.begin(9600);                           // init serial port on USB interface
   tm1637.set();                                 // cofig TM1637
   tm1637.init();                                // clear the display
-  pinMode(HALLPIN, INPUT);                      // set hall sensor pin as input
   pinMode(BUZZERPIN, OUTPUT);                   // set buzzer pin as output
 }
 
@@ -67,9 +66,8 @@ void loop()
     dispNum(tempMesured);
   }
 
-  hallStatus = digitalRead(HALLPIN);            // read the hall sensor pin
   // if only temperature is higher and magnet is detected
-  if((tempMesured >= tempUserSet) && (hallStatus == 0))
+  if(tempMesured >= tempUserSet)
   {
     digitalWrite(BUZZERPIN, HIGH);              // make a alert
   }

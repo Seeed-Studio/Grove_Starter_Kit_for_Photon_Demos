@@ -1,13 +1,16 @@
 // -----------------------------------
 // Example - 02: Display the Analog Value
 // -----------------------------------
-
+#include "application.h"
 #include "TM1637.h"
 
 // name the pins
 #define ROTARYPIN A0
 #define CLK D4
 #define DIO D5
+
+void dispNum(unsigned int num);
+
 TM1637 tm1637(CLK,DIO);
 
 // This routine runs only once upon reset

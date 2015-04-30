@@ -1,7 +1,7 @@
 // -----------------------------------
 // Project - 01 Direction Recorder
 // -----------------------------------
-
+#include "application.h"
 #include <math.h>
 #include "MMA7660.h"
 #include "ChainableLED.h"
@@ -54,7 +54,7 @@ void loop()
   Serial.println("*************");
 
   // set the original location
-  if(digitalRead(BUTTONPIN) == 1)               // if the button was pressed
+  if(keyValue == 1)               // if the button was pressed
   {
     x_r = x;
     y_r = y;

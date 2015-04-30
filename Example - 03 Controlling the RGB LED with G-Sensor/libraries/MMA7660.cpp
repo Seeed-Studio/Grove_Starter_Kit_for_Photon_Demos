@@ -3,7 +3,7 @@
  * Library for accelerometer_MMA7760
  *
  * Copyright (c) 2013 seeed technology inc.
- * Author        :   FrankieChu
+ * Author        :   FrankieChu 
  * Create Time   :   Jan 2013
  * Change Log    :
  *
@@ -27,25 +27,26 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
+ 
 //#include <Wire.h>
+#include "application.h"
 #include "MMA7660.h"
 /*Function: Write a byte to the register of the MMA7660*/
 void MMA7660::write(uint8_t _register, uint8_t _data)
 {
     Wire.begin();
     Wire.beginTransmission(MMA7660_ADDR);
-    Wire.write(_register);
+    Wire.write(_register);   
     Wire.write(_data);
     Wire.endTransmission();
 }
 /*Function: Read a byte from the regitster of the MMA7660*/
 uint8_t MMA7660::read(uint8_t _register)
 {
-    uint8_t data_read;
+    uint8_t data_read = 0;
     Wire.begin();
     Wire.beginTransmission(MMA7660_ADDR);
-    Wire.write(_register);
+    Wire.write(_register); 
     Wire.endTransmission();
     Wire.beginTransmission(MMA7660_ADDR);
     Wire.requestFrom(MMA7660_ADDR,1);
@@ -77,11 +78,18 @@ void MMA7660::getXYZ(int8_t *x,int8_t *y,int8_t *z)
 {
     unsigned char val[3];
     int count = 0;
+    int timeout = 0;
+    
     val[0] = val[1] = val[2] = 64;
     while(Wire.available() > 0)
+    {
         Wire.read();
+        delay(1);
+        if(timeout++ > 100) break;
+    }
+        
     Wire.requestFrom(MMA7660_ADDR,3);
-    while(Wire.available())
+    while(Wire.available())  
     {
         if(count < 3)
         {
@@ -105,3 +113,4 @@ void MMA7660::getAcceleration(float *ax,float *ay,float *az)
     *ay = y/21.00;
     *az = z/21.00;
 }
+

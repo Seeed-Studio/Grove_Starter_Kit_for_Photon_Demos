@@ -1,7 +1,7 @@
 // -----------------------------------
 // Example - 03: Controlling the RGB LED with Acceleration Sensor
 // -----------------------------------
-
+#include "application.h"
 #include "MMA7660.h"
 #include "ChainableLED.h"
 

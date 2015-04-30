@@ -1,9 +1,11 @@
 // -----------------------------------
 // Example - 05: Measuring Temperature
 // -----------------------------------
-
+#include "application.h"
 #include <math.h>
 #include "TM1637.h"
+
+void dispNum(unsigned int num);
 
 // name the pins
 #define CLK D4

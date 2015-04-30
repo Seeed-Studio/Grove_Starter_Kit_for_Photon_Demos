@@ -1,21 +1,21 @@
 /*
  * Copyright (C) 2012 Paulo Marques (pjp.marques@gmail.com)
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of 
  * this software and associated documentation files (the "Software"), to deal in
  * the Software without restriction, including without limitation the rights to
  * use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
  * the Software, and to permit persons to whom the Software is furnished to do so,
  * subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
+ * 
+ * The above copyright notice and this permission notice shall be included in all 
  * copies or substantial portions of the Software.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
  * FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
  * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
- * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+ * IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN 
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
@@ -41,7 +41,7 @@ ChainableLED::ChainableLED(byte clk_pin, byte data_pin, byte number_of_leds) :
 {
     pinMode(_clk_pin, OUTPUT);
     pinMode(_data_pin, OUTPUT);
-
+  
     _led_state = (byte*) calloc(_num_leds*3, sizeof(byte));
 
     for (byte i=0; i<_num_leds; i++)
@@ -53,14 +53,21 @@ ChainableLED::~ChainableLED()
     free(_led_state);
 }
 
+float ChainableLED::myconstrain(float in, float min, float max)
+{
+   if(in > max) in = max;
+   if(in < min) in = min;
+   return in;
+}
+
 // --------------------------------------------------------------------------------------
 
 void ChainableLED::clk(void)
 {
     digitalWrite(_clk_pin, LOW);
-    delayMicroseconds(_CLK_PULSE_DELAY);
+    delayMicroseconds(_CLK_PULSE_DELAY); 
     digitalWrite(_clk_pin, HIGH);
-    delayMicroseconds(_CLK_PULSE_DELAY);
+    delayMicroseconds(_CLK_PULSE_DELAY);   
 }
 
 void ChainableLED::sendByte(byte b)
@@ -79,19 +86,19 @@ void ChainableLED::sendByte(byte b)
         b <<= 1;
     }
 }
-
+ 
 void ChainableLED::sendColor(byte red, byte green, byte blue)
 {
     // Start by sending a byte with the format "1 1 /B7 /B6 /G7 /G6 /R7 /R6"
-    byte prefix = (1<<7) | (1<<6);
+    byte prefix = (1<<5) | (1<<6);
     if ((blue & 0x80) == 0)     prefix|= (1<<5);
-    if ((blue & 0x40) == 0)     prefix|= (1<<4);
+    if ((blue & 0x40) == 0)     prefix|= (1<<4); 
     if ((green & 0x80) == 0)    prefix|= (1<<3);
     if ((green & 0x40) == 0)    prefix|= (1<<2);
     if ((red & 0x80) == 0)      prefix|= (1<<1);
     if ((red & 0x40) == 0)      prefix|= (1<<0);
     sendByte(prefix);
-
+        
     // Now must send the 3 colors
     sendByte(blue);
     sendByte(green);
@@ -105,7 +112,7 @@ void ChainableLED::setColorRGB(byte led, byte red, byte green, byte blue)
     sendByte(0x00);
     sendByte(0x00);
     sendByte(0x00);
-
+    
     // Send color data for each one of the leds
     for (byte i=0; i<_num_leds; i++)
     {
@@ -115,9 +122,9 @@ void ChainableLED::setColorRGB(byte led, byte red, byte green, byte blue)
             _led_state[i*3 + _CL_GREEN] = green;
             _led_state[i*3 + _CL_BLUE] = blue;
         }
-
-        sendColor(_led_state[i*3 + _CL_RED],
-                  _led_state[i*3 + _CL_GREEN],
+                    
+        sendColor(_led_state[i*3 + _CL_RED], 
+                  _led_state[i*3 + _CL_GREEN], 
                   _led_state[i*3 + _CL_BLUE]);
     }
 
@@ -131,10 +138,10 @@ void ChainableLED::setColorRGB(byte led, byte red, byte green, byte blue)
 void ChainableLED::setColorHSB(byte led, float hue, float saturation, float brightness)
 {
     float r, g, b;
-
-    constrain(hue, 0.0, 1.0);
-    constrain(saturation, 0.0, 1.0);
-    constrain(brightness, 0.0, 1.0);
+    
+    myconstrain(hue, 0.0, 1.0);
+    myconstrain(saturation, 0.0, 1.0);
+    myconstrain(brightness, 0.0, 1.0);
 
     if(saturation == 0.0)
     {
@@ -142,7 +149,7 @@ void ChainableLED::setColorHSB(byte led, float hue, float saturation, float brig
     }
     else
     {
-        float q = brightness < 0.5 ?
+        float q = brightness < 0.5 ? 
             brightness * (1.0 + saturation) : brightness + saturation - brightness * saturation;
         float p = 2.0 * brightness - q;
         r = hue2rgb(p, q, hue + 1.0/3.0);
@@ -157,15 +164,15 @@ void ChainableLED::setColorHSB(byte led, float hue, float saturation, float brig
 
 float hue2rgb(float p, float q, float t)
 {
-    if (t < 0.0)
+    if (t < 0.0) 
         t += 1.0;
-    if(t > 1.0)
+    if(t > 1.0) 
         t -= 1.0;
-    if(t < 1.0/6.0)
+    if(t < 1.0/6.0) 
         return p + (q - p) * 6.0 * t;
-    if(t < 1.0/2.0)
+    if(t < 1.0/2.0) 
         return q;
-    if(t < 2.0/3.0)
+    if(t < 2.0/3.0) 
         return p + (q - p) * (2.0/3.0 - t) * 6.0;
 
     return p;

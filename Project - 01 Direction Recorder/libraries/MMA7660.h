@@ -3,7 +3,7 @@
  * Library for accelerometer_MMA7760
  *
  * Copyright (c) 2013 seeed technology inc.
- * Author        :   FrankieChu
+ * Author        :   FrankieChu 
  * Create Time   :   Jan 2013
  * Change Log    :
  *
@@ -27,8 +27,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-#include "application.h"
-
+ 
 #ifndef __MMC7660_H__
 #define __MMC7660_H__
 
@@ -43,7 +42,7 @@
 #define MMA7660_INTSU 0x06
 #define MMA7660_MODE  0x07
     #define MMA7660_STAND_BY 0x00
-    #define MMA7660_ACTIVE   0x01
+    #define MMA7660_ACTIVE   0x01   
 #define MMA7660_SR    0x08      //sample rate register
     #define AUTO_SLEEP_120  0X00//120 sample per second
     #define AUTO_SLEEP_64   0X01
@@ -69,3 +68,5 @@ public:
 };
 
 #endif
+
+
