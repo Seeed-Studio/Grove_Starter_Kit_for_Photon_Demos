@@ -26,7 +26,7 @@ void loop()
   int analogValue = analogRead(ROTARYPIN);      // read rotary pin
   int voltage = (long)3300 *  analogValue / 4096;     // calculate the voltage
   dispNum(voltage);                             // display the voltage
-  delay(200);
+  delay(200);//this delay on user manual is 50ms, sometimes it may result in flicker on Grove - 4-Digit Display. long delay time will reduce the reduce this appearance.
 }
 
 //display a integer value less then 10000
