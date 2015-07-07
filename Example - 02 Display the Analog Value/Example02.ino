@@ -24,9 +24,9 @@ void setup()
 void loop()
 {
   int analogValue = analogRead(ROTARYPIN);      // read rotary pin
-  int voltage = 3300 *  analogValue / 4096;     // calculate the voltage
+  int voltage = (long)3300 *  analogValue / 4096;     // calculate the voltage
   dispNum(voltage);                             // display the voltage
-  delay(50);
+  delay(200);
 }
 
 //display a integer value less then 10000

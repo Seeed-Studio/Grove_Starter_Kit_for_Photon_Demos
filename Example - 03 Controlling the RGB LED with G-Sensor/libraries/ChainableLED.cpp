@@ -42,7 +42,7 @@ ChainableLED::ChainableLED(byte clk_pin, byte data_pin, byte number_of_leds) :
     pinMode(_clk_pin, OUTPUT);
     pinMode(_data_pin, OUTPUT);
   
-    _led_state = (byte*) calloc(_num_leds*3, sizeof(byte));
+    _led_state = (byte*) malloc(_num_leds*3);
 
     for (byte i=0; i<_num_leds; i++)
         setColorRGB(i, 0, 0, 0);
@@ -90,7 +90,7 @@ void ChainableLED::sendByte(byte b)
 void ChainableLED::sendColor(byte red, byte green, byte blue)
 {
     // Start by sending a byte with the format "1 1 /B7 /B6 /G7 /G6 /R7 /R6"
-    byte prefix = (1<<5) | (1<<6);
+    byte prefix = (1<<6) | (1<<7);
     if ((blue & 0x80) == 0)     prefix|= (1<<5);
     if ((blue & 0x40) == 0)     prefix|= (1<<4); 
     if ((green & 0x80) == 0)    prefix|= (1<<3);
