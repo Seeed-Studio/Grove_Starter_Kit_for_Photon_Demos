@@ -31,6 +31,8 @@
 #ifndef __MMC7660_H__
 #define __MMC7660_H__
 
+#include "application.h"
+
 #define MMA7660_ADDR  0x4c
 
 #define MMA7660_X     0x00
